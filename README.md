@@ -1,7 +1,5 @@
-![image](https://github.com/zuoyanzhang/HSED/assets/93237592/34d83d8a-e039-4640-9a75-c0a555f60a79)# HSED
-
 #### Introduction
-HSED(Hierarchical search algorithm for error detection in floating-point arithmetic expressions).
+HSED (Hierarchical search algorithm for error detection in floating-point arithmetic expressions).
 
 HSED supports the parsing of mathematical expressions, MPFR version code generation and is a command line tool.
 
