@@ -88,7 +88,7 @@ e.g: bin/errorDetect.exe 1.0 2.0
 //the parameter1 and parameter2 indicate the left and right endpoints of the detection interval.
 ```
 #### Running Results
-执行$./bin/errorDetect.exe 1.0 2.0，运行结果如下：
+Execute $ bin/errorDetect.exe 1.0 2.0 and it will run as follows:
 ```
 Detection interval: [1, 2]
 preprocessing: x = 1.277344, maximumULP = 0.50, maximumRelative = 1.053593e-16
