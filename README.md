@@ -1,20 +1,20 @@
 # HSED
 
-#### 介绍
-本项目属于自研课题开发，基于层级搜索算法的浮点算术表达式误差检测。
+#### Introduction
+HSED(Hierarchical search algorithm for error detection in floating-point arithmetic expressions).
 
-HSED支持数学表达式的解析，mpfr版本代码生成，是一个命令行工具。
+HSED supports the parsing of mathematical expressions, MPFR version code generation and is a command line tool.
 
-HSED基于LLVM教程——第二章 实现语法分析器和AST实现(https://llvm-tutorial-cn.readthedocs.io/en/latest/chapter-2.html)。
+HSED based LLVM Tutorial-Chapter 2 implementing the Syntax Parser and AST Implementation (https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl02.html).
 
-数学表达式示例（来自FPBench基准集http://fpbench.org/benchmarks.html）
+Example mathematical expressions (from the FPBench benchmark set http://fpbench.org/benchmarks.html).
 * predatorPrey:((4.0 * x) * x) / (1.0 + ((x / 1.11) * (x / 1.11)))
 * sqrt_add:(1 / (sqrt((x + 1)) + sqrt(x)))
 * NMSEproblem333:((1.0 / (x + 1.0)) - (2.0 / x)) + (1.0 / (x - 1.0))
-#### 工作流程
-数学表达式->词法分析->语法分析->语义分析->抽象语法树(AST)->代码生成->误差检测
+#### Engineering Process
+Mathematical expressions -> lexical analysis -> syntactic analysis -> semantic analysis -> abstract syntax tree (AST) -> code generation -> error detection
 
-#### 软件架构
+#### Software Architecture
 ```
 .
 ├── bin
@@ -45,51 +45,60 @@ HSED基于LLVM教程——第二章 实现语法分析器和AST实现(https://ll
 │        ├── main.cpp
 └──      └── getresult.cpp
 ```
-#### 安装教程
-###### 依赖环境
-gcc、g++、make、高精度库（mpfr、gmp）、m4
+#### Installation Tutorial
+###### Environmentally Dependent
+gcc、g++、make、high precision library (MPFR, GMP)、m4
 
-GMP库安装
+GMP library installation
 ```
-下载链接：https://gmplib.org/
-首先需要安装m4库：$sudo apt-get install m4
-进入GMP目录：$./configure --enable-cxx
-$make
-$make check
-$sudo make install
-```
-
-MPFR库安装
-```
-下载链接：https://www.mpfr.org/mpfr-current/#download
-进入MPFR目录：$./configure --with-gmp-include=/usr/local/include --with-gmp-lib=/usr/local/lib
-$make
-$make check
-$sudo make install
+Downloads links: https://gmplib.org/
+First you need to install the m4 library: $ sudo apt-get install m4
+$ wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz
+$ tar -xvJf gmp-6.2.1.tar.xz
+$ cd gmp-6.2.1
+$ ./configure --enable-cxx
+$ make
+$ make check
+$ sudo make install
 ```
 
-#### 使用说明
+MPFR library installation
 ```
-git clone https://github.com/zuoyanzhang/HSED.git
-cd path/to/HSED
-make
-./bin/errordetect.exe
-//输入数学表达式生成高精度版本代码
-cd detectModule
-make
-./bin/errorDetect.exe parameter1 parameter2
-//parameter1和parameter2表示检测表达式的区间
+Downloads links: https://www.mpfr.org/mpfr-current/#download
+$ wget https://www.mpfr.org/mpfr-current/mpfr-4.2.0.tar.xz
+$ tar -xvJf mpfr-4.2.0.tar.xz
+$ cd mpfr-4.2.0
+$ ./configure --with-gmp-include=/usr/local/include --with-gmp-lib=/usr/local/lib
+$ make
+$ make check
+$ sudo make install
 ```
-#### 运行效果
+
+#### Instructions for use
+```
+$ git clone https://github.com/zuoyanzhang/HSED.git
+$ cd path/to/HSED
+$ make
+$ bin/errordetect.exe
+ready> input expressions
+e.g: ready> (x * x * x) / (x - 5.2331)
+    ready> exit
+$ cd detectModule
+$ make
+$ bin/errorDetect.exe parameter1 parameter2
+e.g: bin/errorDetect.exe 1.0 2.0
+//the parameter1 and parameter2 indicate the left and right endpoints of the detection interval.
+```
+#### Running Results
 执行$./bin/errorDetect.exe 1.0 2.0，运行结果如下：
 ```
 Detection interval: [1, 2]
-preprocessing: x = 1.788086, maximumULP = 0.50, maximumRelative = 8.626883e-17
+preprocessing: x = 1.277344, maximumULP = 0.50, maximumRelative = 1.053593e-16
 
 ---------------No significant error, excute two-layer search------------------
-float-precision layer: x = 1.64610558, maximumULP = 2.71, maximumRelative = 3.090448e-16
+float-precision layer: x = 1.01296334, maximumULP = 3.15, maximumRelative = 3.551087e-16
 
-double-precision layer: x = 1.6461056093252275, maximumULP = 2.87, maximumRelative = 3.274910e-16, BitsError = 2.0
+double-precision layer: x = 1.0129633739247148, maximumULP = 3.29, maximumRelative = 3.705561e-16, BitsError = 2.1
 -------------------------------------------------------------------------------
 ```
 
