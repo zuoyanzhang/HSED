@@ -364,7 +364,7 @@ vector<double> DoubleFunction::random_test(const double &start, const double &en
     double inputx = 0.0;
     double dE, current;
     //循环9w6次，9w6的采样获取一个最大误差和输入传给result容器
-    for (int i = 0; i < 150000; ++i) {
+    for (int i = 0; i < 100000; ++i) {
         double dbNumber2 = start + static_cast<double> (rand()) / (static_cast<double> (RAND_MAX / (end - start)));
         double origin2 = getDoubleOfOrigin(dbNumber2);
         current = getULP(dbNumber2, origin2);
