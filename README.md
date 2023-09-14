@@ -47,7 +47,14 @@ Mathematical expressions -> lexical analysis -> syntactic analysis -> semantic a
 ###### Environmentally Dependent
 gcc、g++、make、high precision library (MPFR, GMP)、m4
 
-GMP library installation
+You can directly install gmp and mpfr from apt-get install
+```
+$ sudo apt-get install gmp-dev libmpfr-dev
+```
+
+or you can install from source.
+
+GMP library installation from source
 ```
 Downloads links: https://gmplib.org/
 First you need to install the m4 library: $ sudo apt-get install m4
@@ -60,7 +67,7 @@ $ make check
 $ sudo make install
 ```
 
-MPFR library installation
+MPFR library installation from source
 ```
 Downloads links: https://www.mpfr.org/mpfr-current/#download
 $ wget https://www.mpfr.org/mpfr-current/mpfr-4.2.0.tar.xz
