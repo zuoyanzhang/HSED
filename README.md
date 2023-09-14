@@ -49,7 +49,7 @@ gcc、g++、make、high precision library (MPFR, GMP)、m4
 
 You can directly install gmp and mpfr from apt-get install
 ```
-$ sudo apt-get install gmp-dev libmpfr-dev
+$ sudo apt-get install libgmp-dev libmpfr-dev
 ```
 
 or you can install from source.
