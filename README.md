@@ -83,28 +83,26 @@ $ sudo make install
 ```
 $ git clone https://github.com/zuoyanzhang/HSED.git
 $ cd path/to/HSED
-$ make
-$ bin/errordetect.exe
-ready> input expressions
-e.g: ready> (x * x * x) / (x - 5.2331)
-    ready> exit
-$ cd detectModule
-$ make
-$ bin/errorDetect.exe parameter1 parameter2
-e.g: bin/errorDetect.exe 1.0 2.0
+$ ./hsed "expression" parameter1 parameter2
+e.g: ./hsed "exp(x) - 2.0 + exp(-x)" 0.01 100
 //the parameter1 and parameter2 indicate the left and right endpoints of the detection interval.
 ```
 #### Running Results
-Execute $ bin/errorDetect.exe 1.0 2.0 and it will run as follows:
+Execute $ ./hsed "exp(x) - 2.0 + exp(-x)" 0.01 100 and it will run as follows:
 ```
-Detection interval: [1, 2]
-preprocessing: x = 1.277344, maximumULP = 0.50, maximumRelative = 1.053593e-16
+-------MPFR high-precision version code generation-------
+g++ src/*.cpp -o bin/errorDetect.exe -lm -lmpfr -I ./include
+Detection interval: [0.01, 100]
+preprocessing: x = 0.010536, maximumULP = 11641.31, maximumRelative = 1.421186e-12
 
----------------No significant error, excute two-layer search------------------
-float-precision layer: x = 1.01296334, maximumULP = 3.15, maximumRelative = 3.551087e-16
+--------------------existing significant error, excute three-layer search----------------------
+half-precisoin layer: x = 0.010536, maximumULP = 11641.31, maximumRelative = 1.421186e-12
 
-double-precision layer: x = 1.0129633739247148, maximumULP = 3.29, maximumRelative = 3.705561e-16, BitsError = 2.1
--------------------------------------------------------------------------------
+float-precisoin layer: x = 0.0105394478887320, maximumULP = 12262.57, maximumRelative = 1.496105e-12
+
+double-precision layer: x = 0.0105394485936052, maximumULP = 12242.50, maximumRelative = 1.493656e-12, BitsError = 13.6
+-----------------------------------------------------------------------------------------
+
 ```
 
 #### Thesis Experimental Test Cases
