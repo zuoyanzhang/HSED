@@ -11,29 +11,16 @@ using std::cin;
 using std::cout;
 using std::vector;
 using std::endl;
-int main() {
-    installOperatorsForStr();
-    fprintf(stderr, GREEN "ready> " RESET);
-    string inputStr = "";
-    int getlineCount = 0;
-    while (getline(cin, inputStr)) {
-        ++getlineCount;
-        if (inputStr == "exit;" || inputStr == "quit;" || inputStr == "exit" || inputStr == "quit" ) {
-            fprintf(stderr, "main: the application is end after inputing '%s'\n", inputStr.c_str());
-            break;
-        }
-        if (inputStr.empty()) {
-            fprintf(stderr, "WARNING: main: please input a expression before pressing Enter\n");
-            fprintf(stderr, GREEN "ready> " RESET);
-            continue;
-        } else if (inputStr.back() == ';') {
-            fprintf(stderr, "you do not need to add a ';' after the expression\n");
-            inputStr.pop_back();
-        }
-        auto originExpr = ParseExpressionFromString(inputStr);
-        vector<string> vars;
-        getVariablesFromExpr(originExpr, vars);
-        auto funcNameMpfr = geneMpfrCode(inputStr, vars);
-        fprintf(stderr, GREEN "ready> " RESET);
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        cout << "Usage: " << argv[0] << " <input file>" << endl;
+        return 1;
     }
+    installOperatorsForStr();
+    string inputStr = string(argv[1]);
+    auto originExpr = ParseExpressionFromString(inputStr);
+    vector<string> vars;
+    getVariablesFromExpr(originExpr, vars);
+    auto funcNameMpfr = geneMpfrCode(inputStr, vars);
+    return 0;
 }

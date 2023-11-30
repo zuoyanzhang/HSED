@@ -1,0 +1,13 @@
+#bin/bash
+strexpression="${1}"
+start=${2}
+end=${3}
+make
+bin/errordetect.exe "${strexpression}"
+echo '-------MPFR high-precision version code generation-------'
+cd detectModule
+make
+bin/errorDetect.exe ${start} ${end}
+cd ..
+
+
